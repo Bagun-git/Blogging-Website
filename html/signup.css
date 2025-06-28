@@ -6,7 +6,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, #3f87a6, #f69d3c);
+  background: linear-gradient(120deg, #3f87a6, #ebf8e1, #f69d3c);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -67,3 +67,8 @@ body {
   text-decoration: none;
   color: #3f87a6;
 }
+  .error {
+    color: red;
+    margin-top: 2px;
+  }
+

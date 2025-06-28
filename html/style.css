@@ -1,78 +1,86 @@
-* {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box;
-}
-
+/* Whole Page Background and Font */
 body {
-  background: linear-gradient(120deg, #3f87a6, #ebf8e1, #f69d3c);
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #dbeafe, #fef3c7);
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* White Card Container */
 .container {
-  width: 100%;
-  max-width: 400px;
-  background: #fff;
-  padding: 40px;
+  background-color: #ffffff;
+  padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.form-box h1 {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 350px;
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
 }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 15px;
+/* Logo + Website Name */
+.logo-section img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
-.input-field input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #aaa;
-  outline: none;
-}
-
-p {
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-p a {
-  text-decoration: none;
-  color: #3f87a6;
-}
-
-.btn-field {
-  display: flex;
-  justify-content: space-between;
-}
-
-.btn-field button {
-  flex: 1;
-  padding: 10px;
-  margin: 0 5px;
-  border: none;
-  border-radius: 10px;
-  background-color: #3f87a6;
-  color: white;
-  cursor: pointer;
+.logo-section h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #222;
   font-weight: bold;
-  transition: background 0.3s;
 }
 
-.btn-field button.disable {
-  background-color: #ccc;
-  color: #666;
+/* Form Header */
+.login-form h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Input Fields */
+.login-form input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Submit Button */
+.login-form button {
+  width: 95%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #2563eb;
+}
+
+/* Text and Links Below Button */
+.login-form p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Anchor Tags */
+.login-form a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.login-form a:hover {
+  text-decoration: underline;
 }

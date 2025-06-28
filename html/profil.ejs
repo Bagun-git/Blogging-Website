@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile | MYBLOGSPACE</title>
+  <link rel="stylesheet" href="profil.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <h2>MYBLOGSPACE</h2>
+    <nav>
+      <a href="home">Home</a>
+      <a href="notification">Notifications</a>
+      <a href="messages.html">Messages</a>
+      <a href="profil" class="active">Profile</a>
+      <a href="login">Logout</a>
+    </nav>
+    <a href="create-blog.html">
+    <button class="post-btn">Create Blog</button>
+    </a>
+  </div>
+
+  <div class="main">
+    <div class="cover-photo"></div>
+    
+    <div class="profile-section">
+      <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic" />
+      <div class="profile-info">
+        <h2><%= user.fullname %></h2>
+<p class="username">@<%= user.fullname.replace(/\s/g, '') %></p>
+<p class="bio"><%= user.bio || 'Web Developer | Blogging Enthusiast | Dreamer 🌟' %></p>
+<p class="joined">Joined <%= user.joinedDate || 'April 2023' %></p>
+      </div>
+     <a href="/edit-profile"><button class="edit-btn">Edit Profile</button></a>
+    </div>
+
+    <div class="stats">
+      <span><strong><%= user.following.length %></strong> Following</span>
+      <span><strong><%= user.followers.length %></strong> Followers</span>
+    </div>
+
+    <div class="posts">
+    <h3>Your Posts</h3>
+<% if (userBlogs.length === 0) { %>
+  <p>No posts yet.</p>
+<% } else { %>
+  <% userBlogs.forEach(blog => { %>
+    <div class="post">
+      <h4><%= blog.title %></h4>
+      <p><%= blog.content %></p>
+      <span class="time"><%= blog.createdAt.toDateString() %></span>
+    </div>
+  <% }) %>
+<% } %>
+
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+body {
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+  color: white;
+}
+
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  border-right: 1px solid #222;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar nav a {
+  display: block;
+  margin: 15px 0;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.sidebar nav a.active {
+  font-weight: bold;
+  color: #1d9bf0;
+}
+
+.post-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #1d9bf0;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.main {
+  margin-left: 240px;
+  margin-right: 320px;
+  flex: 1;
+  padding: 20px;
+}
+
+.top-bar {
+  font-size: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.tweet-box {
+  background: #111;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.tweet-box textarea {
+  width: 100%;
+  height: 60px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  resize: none;
+}
+
+.tweet-box button {
+  background-color: #1d9bf0;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.tweet {
+  background-color: #111;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.tweet .user {
+  color: #1d9bf0;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.tweet-image {
+  position: relative;
+}
+
+.tweet-image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  color: white;
+  font-size: 18px;
+}
+
+.right-panel {
+  width: 300px;
+  padding: 20px;
+  border-left: 1px solid #222;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  background-color: #000;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 30px;
+  background-color: #16181c;
+  border: none;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.who-to-follow h3 {
+  margin-bottom: 10px;
+}
+
+.user-suggestion {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.user-suggestion img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-suggestion div {
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+.user-suggestion button {
+  padding: 5px 12px;
+  border: none;
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.show-more {
+  color: #1d9bf0;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar, .right-panel {
+    display: none;
+  }
+
+  .main {
+    margin: 0;
+    padding: 10px;
+  }
+}
+.followBtn{
+  padding: 3px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 7px;
+}
+.followBtn.following {
+  background-color: #444;
+  color: white;
+  cursor: default;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+}

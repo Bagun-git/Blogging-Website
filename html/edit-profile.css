@@ -1,0 +1,62 @@
+body {
+  display: flex;
+  margin: 0;
+  font-family: sans-serif;
+  background: #121212;
+  color: #fff;
+}
+
+.sidebar {
+  width: 200px;
+  padding: 20px;
+  background-color: #000;
+  height: 100vh;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin: 10px 0;
+}
+
+.sidebar nav a.active {
+  color: #1da1f2;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.edit-form {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  background: #1c1c1c;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+
+.save-btn {
+  padding: 10px 20px;
+  background: #1da1f2;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}

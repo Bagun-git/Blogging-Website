@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: white;
+}
+
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  border-right: 1px solid #222;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar nav a {
+  display: block;
+  margin: 15px 0;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.sidebar nav a.active {
+  font-weight: bold;
+  color: #1d9bf0;
+}
+
+.messages-container {
+  margin-left: 240px;
+  display: flex;
+  height: 100vh;
+  width: calc(100% - 240px);
+}
+
+.chat-list {
+  width: 300px;
+  border-right: 1px solid #333;
+  padding: 20px;
+  overflow-y: auto;
+  background: #111;
+}
+
+.chat-user {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.chat-user.active {
+  background: #222;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.chat-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.chat-user p {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.chat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.chat-header {
+  padding: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.chat-header p {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.msg {
+  max-width: 60%;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.incoming {
+  background-color: #222;
+  align-self: flex-start;
+}
+
+.outgoing {
+  background-color: #1d9bf0;
+  align-self: flex-end;
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px 20px;
+  border-top: 1px solid #333;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  background-color: #111;
+  color: white;
+}
+
+.chat-input button {
+  margin-left: 10px;
+  background: #1d9bf0;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.post-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #1d9bf0;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
