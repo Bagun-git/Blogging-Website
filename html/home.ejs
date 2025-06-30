@@ -33,7 +33,8 @@
   <% blogs.forEach(blog => { %>
     <div class="tweet">
       <div class="user"><strong>
-         <% if (blog.authorId && blog.authorId._id) { %><a href="/user/<%= blog.authorId._id %>">@<%= blog.authorName || "Anonymous" %></a>
+         <% if (blog.authorId && blog.authorId._id) { %><a href="/user/<%= blog.authorId._id %>">
+         <span class="username"> @<%= blog.authorName || "Anonymous" %></span></a>
      <% } else { %>
       @<%= blog.authorName || "Anonymous" %>
      <% } %></strong>

@@ -8,36 +8,37 @@ body {
 /* Sidebar */
 .sidebar {
   width: 220px;
-  background-color: #222;
-  color: #fff;
-  height: 100vh;
   padding: 20px;
+  background-color: #000;
+  border-right: 1px solid #222;
+  height: 100vh;
+  position: fixed;
 }
 
 .sidebar h2 {
-  margin-top: 0;
-  font-size: 24px;
+margin-bottom: 20px;
+color:#ffffff;
 }
 
 .sidebar nav a {
   display: block;
-  color: #ccc;
+  margin: 15px 0;
+  color: white;
   text-decoration: none;
-  margin: 10px 0;
-  padding: 8px;
-  border-radius: 4px;
+  font-size: 18px;
 }
 
 .sidebar nav a:hover,
 .sidebar nav a.active {
-  background-color: #444;
-  color: #fff;
+  font-weight: bold;
+  color: #1d9bf0;
 }
 
 /* Main content */
 .main {
-  flex: 1;
+  margin-left: 240px;
   padding: 20px;
+  width: 100%;
 }
 
 /* Profile section */
@@ -83,7 +84,7 @@ body {
 .profile-info button {
   padding: 8px 16px;
   background-color: #007bff;
-  color: #26cbf0;
+  color: #ffffff;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -125,4 +126,15 @@ body {
 .post .time {
   color: #999;
   font-size: 12px;
+}
+.post-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #1d9bf0;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
