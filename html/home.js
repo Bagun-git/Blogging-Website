@@ -1,6 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("home.js loaded and DOM ready!");
 
+  document.getElementById('searchInput').addEventListener('input', async function() {
+  const query = this.value.trim();
+  const resultsContainer = document.getElementById('searchResults');
+
+  if (!query) {
+    resultsContainer.innerHTML = '';
+    return;
+  }
+
+  const res = await fetch(`/search-users?q=${encodeURIComponent(query)}`);
+  const users = await res.json();
+
+  resultsContainer.innerHTML = users.map(user => 
+    `<div data-id="${user._id}">@${user.fullname}</div>`
+  ).join('');
+
+  // Handle click
+  Array.from(resultsContainer.children).forEach(div => {
+    div.addEventListener('click', () => {
+      window.location.href = `/user/${div.dataset.id}`;
+    });
+  });
+});
+
+
   document.querySelectorAll(".followBtn").forEach(button => {
     button.addEventListener("click", async () => {
       console.log("Follow button clicked!");

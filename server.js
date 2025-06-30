@@ -279,6 +279,18 @@ app.get('/profil', async (req, res) => {
     ...user._doc,
     profilePicPath: user.profilePicPath || '/images/default-pfp-23.jpg'}, userBlogs });
 });
+//search route
+app.get('/search-users', async (req, res) => {
+  const q = req.query.q;
+  if (!q) return res.json([]);
+
+  const users = await User.find({ 
+    fullname: { $regex: q, $options: 'i' } 
+  }).limit(5);
+
+  res.json(users.map(u => ({ _id: u._id, fullname: u.fullname })));
+});
+
 //notification
 app.get('/notification', async (req, res) => {
   const user = await User.findOne({ email: req.session.user.email });

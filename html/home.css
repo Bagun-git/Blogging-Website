@@ -209,3 +209,22 @@ body {
   padding: 6px 12px;
   border-radius: 20px;
 }
+.search-results {
+  background-color: #16181c;
+  position: absolute;
+  width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 5px;
+  border: 1px solid #333;
+  z-index: 100;
+}
+
+.search-results div {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.search-results div:hover {
+  background-color: #333;
+}
