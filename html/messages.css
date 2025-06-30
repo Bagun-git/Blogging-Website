@@ -22,7 +22,9 @@ body {
 .sidebar h2 {
   margin-bottom: 20px;
 }
-
+.user{
+  color:#1d9bf0;
+}
 .sidebar nav a {
   display: block;
   margin: 15px 0;
@@ -151,4 +153,23 @@ body {
   color: white;
   font-size: 16px;
   cursor: pointer;
+}
+.chat-list a {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: white;
+  gap: 10px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+.chat-list a.active {
+  background-color: #cec4c4;
+}
+.chat-user-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
 }
