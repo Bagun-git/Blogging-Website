@@ -64,6 +64,78 @@ const blogSchema = new mongoose.Schema({
 });
 const Blog = mongoose.model('Blog', blogSchema);
 
+//message schema
+const messageSchema = new mongoose.Schema({
+  from: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  to: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  text: String,
+  createdAt: { type: Date, default: Date.now }
+});
+const Message = mongoose.model('Message', messageSchema);
+
+app.get('/messages', async (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  const currentUser = await User.findOne({ email: req.session.user.email });
+   const targetUserId = req.query.to;
+   // Fetch distinct users you have chatted with
+     const chats = await Message.aggregate([
+    { $match: { $or: [ { from: currentUser._id }, { to: currentUser._id } ] } },
+    { $group: {
+      _id: {
+        $cond: [
+          { $eq: ["$from", currentUser._id] },
+          "$to",
+          "$from"
+        ]
+      }
+    }}
+  ]);
+  const chatUserIds = chats.map(c => c._id);
+  const chatUsers = await User.find({ _id: { $in: chatUserIds } });
+  let targetUser = null;
+  let messages = [];
+
+  if (targetUserId && mongoose.Types.ObjectId.isValid(targetUserId)) {
+    targetUser = await User.findById(targetUserId);
+    if (targetUser) {
+    messages = await Message.find({
+      $or: [
+        { from: currentUser._id, to: targetUser._id },
+        { from: targetUser._id, to: currentUser._id }
+      ]
+    }).sort({ createdAt: 1 });
+  }
+}
+  
+  res.render('messages', { currentUser, targetUser, messages,chatUsers });
+});
+//message POST
+app.post('/messages', async (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  const currentUser = await User.findOne({ email: req.session.user.email });
+  const { toUserId, text } = req.body;
+
+  if (!text.trim() || !mongoose.Types.ObjectId.isValid(toUserId)) {
+    return res.redirect('/messages');
+  }
+
+  const targetUser = await User.findById(toUserId);
+  if (!targetUser) {
+    return res.redirect('/messages');
+  }
+
+  await new Message({
+    from: currentUser._id,
+    to: targetUser._id,
+    text
+  }).save();
+
+  res.redirect(`/messages?to=${toUserId}`);
+});
+
+
 // Multer (for image upload)
 const storage = multer.diskStorage({
   destination: './html/images',
@@ -76,7 +148,6 @@ const upload = multer({ storage });
 app.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
-
 // Signup POST
 app.post('/signup', async (req, res) => {
   const { fullname, email, password, confirmPassword } = req.body;
@@ -169,19 +240,25 @@ app.post('/reset-password', async (req, res) => {
 // Login POST
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
-  const user = await User.findOne({ email, password });
+  const user = await User.findOne({ email });
+  if (!user) {
+  return res.render('login', { error: 'Email not found. Try again!' });
+}
 
-  if (user && user.fullname.includes(name)) {
+if (user.password !== password) {
+  return res.render('login', { error: 'Wrong password. Try again!' });
+}
+
+if (!user.fullname.includes(name)) {
+  return res.render('login', { error: 'Wrong name. Try again!' });
+}
     req.session.user={
+      id: user._id,
       name:user.fullname,
       email: user.email
     };
     res.redirect('/home');
-  } else {
-    res.render('login', { error: 'Wrong password. Try again!' });
-  }
-});
-
+  });
 // 🆕 Get Home Page with All Blogs
 app.get('/home', async (req, res) => {
   if (!req.session.user || !req.session.user.email) {
@@ -195,10 +272,12 @@ app.get('/home', async (req, res) => {
 app.get('/profil', async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
 
-  const user = await User.findOne({ email: req.session.user.email }).populate('followers');
+  const user = await User.findById(req.session.user.id).populate('followers');
   const userBlogs = await Blog.find({ authorEmail: user.email }).sort({ createdAt: -1 });
 
-  res.render('profil', { user, userBlogs });
+  res.render('profil', { user: {
+    ...user._doc,
+    profilePicPath: user.profilePicPath || '/images/default-pfp-23.jpg'}, userBlogs });
 });
 //notification
 app.get('/notification', async (req, res) => {
@@ -219,7 +298,6 @@ app.post('/edit-profile', upload.single('profilePic'), async (req, res) => {
   const user = await User.findOne({ email: req.session.user.email });
 
   user.fullname = req.body.fullname;
-  user.email = req.body.email;
   user.bio = req.body.bio;
   
   if (req.file) {
@@ -239,58 +317,106 @@ app.post('/edit-profile', upload.single('profilePic'), async (req, res) => {
 app.post('/follow', async (req, res) => {
   try{
   const { targetUserId } = req.body;
+   if (!req.session.user || !req.session.user.email) {
+      return res.status(401).json({ error: 'Not logged in' });
+    }
   const currentUser = await User.findOne({ email: req.session.user.email });
   const targetUser = await User.findById(targetUserId);
 
-  if (!currentUser || !targetUser) return res.status(404).send('User not found');
+  if (!currentUser || !targetUser) {
+    return res.status(404).json({error:'User not found'});
+  }
+   // 🚫 Prevent following yourself
+    if (currentUser._id.equals(targetUser._id)) {
+      return res.status(400).json({ error: "You can't follow yourself" });
+    }
 
-  // Prevent duplicate follow
-  if (!targetUser.followers.includes(currentUser._id)) {
+  let isFollowing = targetUser.followers.includes(currentUser._id);
+
+    if (isFollowing) {
+      // UNFOLLOW
+      targetUser.followers.pull(currentUser._id);
+      currentUser.following.pull(targetUser._id);
+    } else {
+      // FOLLOW
     targetUser.followers.push(currentUser._id);
     currentUser.following.push(targetUser._id);
 
     // Add notification
     targetUser.notifications.push({
-      message: `${currentUser.fullname} started following you.`,
+      message: `@${currentUser.fullname} started following you.`,
       timestamp: new Date()
     });
-
-   await Promise.all([targetUser.save(), currentUser.save()]);
   }
- res.json({ success: true });
+   await Promise.all([targetUser.save(), currentUser.save()]);
+  
+ res.json({ success: true, following: !isFollowing});
   } catch (err) {
     console.error("Error in /follow:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
+});
+//user-profile
+app.get('/user/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  // 🔑 Check if logged in
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+  // 🔑 Get the logged-in user
+  const currentUser = await User.findOne({ email: req.session.user.email });
+
+  // 🔑 Get the profile being viewed
+  const user = await User.findById(userId).populate('followers').populate('following');
+  const userBlogs = await Blog.find({ authorId: userId }).sort({ createdAt: -1 });
+
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+
+  // ✅ Render and pass currentUserId
+  res.render('user-profile', { 
+    user, 
+    userBlogs, 
+    currentUserId: currentUser._id 
+  });
 });
 
 //update-profile
 const fs = require('fs');
 
 app.post('/update-profile', upload.single('profilePic'), async (req, res) => {
-  if (!req.session.user || !req.session.user.email) {
+  // ✅ Check if session is valid
+  if (!req.session || !req.session.user || !req.session.user.id) {
     return res.redirect('/login');
   }
 
-  const { fullname, bio, email } = req.body;
+    // ✅ Find the user by ID (more reliable than email)
+    const user = await User.findById(req.session.user.id);
+    if (!user)return res.redirect('/login');
 
-  // Optional: Check if email already exists (if you allow email change)
-  const existing = await User.findOne({ email });
-  if (existing && existing.email !== req.session.user.email) {
-    return res.send('Email already registered!');
-  }
+    // ✅ Update fields
+    user.fullname = req.body.fullname;
+    user.bio = req.body.bio;
+    user.email = req.body.email;
 
-  const updateData = { fullname, bio, email };
-  if (req.file) {
-    updateData.profilePicPath = '/images/' + req.file.filename;
-  }
+    if (req.file) {
+      user.profilePicPath = '/images/' + req.file.filename;
+    }
 
-  await User.updateOne({ email: req.session.user.email }, { $set: updateData });
+    await user.save();
 
-  // Update session if email was changed
-  req.session.user.email = email;
+    // ✅ Update session with new email & name
+  req.session.user = {
+  id: user._id,
+  name: user.fullname,
+  email: user.email,
+  profilePicPath: user.profilePicPath || '/images/default-pfp-23.jpg'
+};
 
-  res.redirect('/profil');
+    res.redirect('/profil');
 });
 
 

@@ -12,7 +12,7 @@
     <nav>
       <a href="home">Home</a>
       <a href="notification">Notifications</a>
-      <a href="messages.html">Messages</a>
+      <a href="messages">Messages</a>
       <a href="profil" class="active">Profile</a>
       <a href="login">Logout</a>
     </nav>
@@ -25,7 +25,7 @@
     <div class="cover-photo"></div>
     
     <div class="profile-section">
-      <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic" />
+      <img src="<%= user.profilePicPath %>" alt="Profile Picture" class="profile-pic" />
       <div class="profile-info">
         <h2><%= user.fullname %></h2>
 <p class="username">@<%= user.fullname.replace(/\s/g, '') %></p>
@@ -36,8 +36,9 @@
     </div>
 
     <div class="stats">
-      <span><strong><%= user.following.length %></strong> Following</span>
+     
       <span><strong><%= user.followers.length %></strong> Followers</span>
+     <span><strong><%= user.following.length %></strong> Following</span>
     </div>
 
     <div class="posts">

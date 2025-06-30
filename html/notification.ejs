@@ -12,7 +12,7 @@
     <nav>
       <a href="home">Home</a>
       <a href="notification" class="active">Notifications</a>
-      <a href="messages.html">Messages</a>
+      <a href="messages">Messages</a>
       <a href="profil">Profile</a>
       <a href="login">Logout</a>
     </nav>
@@ -24,25 +24,6 @@
   <div class="main">
     <h2>Notifications</h2>
 
-    <div class="notification">
-      <p><strong>@dev_girl</strong> liked your post.</p>
-      <span class="time">5m ago</span>
-    </div>
-
-    <div class="notification">
-      <p><strong>@coder123</strong> started following you.</p>
-      <span class="time">10m ago</span>
-    </div>
-
-    <div class="notification">
-      <p><strong>@hello_world</strong> mentioned you in a comment.</p>
-      <span class="time">30m ago</span>
-    </div>
-
-    <div class="notification">
-      <p><strong>@openai_fan</strong> retweeted your post.</p>
-      <span class="time">1h ago</span>
-    </div>
   <% notifications.forEach(note => { %>
   <div class="notification">
     <p><%= note.message %></p>

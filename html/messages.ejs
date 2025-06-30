@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Messages</title>
+  <link rel="stylesheet" href="/messages.css" />
+  <script src="/messages.js"></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>MYBLOGSPACE</h2>
+    <nav>
+      <a href="home">Home</a>
+      <a href="notification">Notifications</a>
+      <a href="/messages" class="active">Messages</a>
+      <a href="profil">Profile</a>
+      <a href="login">Logout</a>
+    </nav>
+    <a href="create-blog.html">
+    <button class="post-btn">Create Blog</button>
+    </a>
+  </div>
+
+  <!-- Messages Panel -->
+  <div class="messages-container">
+    <div class="chat-list">
+     
+  <h3>Chats </h3>
+<% if (chatUsers.length === 0) { %>
+  <p>No chats yet. Start messaging someone!</p>
+<% } else { %>
+  <% chatUsers.forEach(user => { %>
+    <a href="/messages?to=<%= user._id %>" class=" <%= targetUser && targetUser._id.equals(user._id) ? 'active' : '' %>">
+      <img src="<%= user.profilePic || 'default-pic.jpg' %>" alt="User" />
+      <div><strong><%= user.fullname %></strong></div>
+    </a>
+  <% }) %>
+<% } %>
+
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-box">
+      <div class="chat-header">
+        <% if (targetUser) { %>
+        <strong><%= targetUser.fullname %></strong>
+        <p>@<%= targetUser.fullname.replace(/\s/g, '') %></p>
+        <% } else { %>
+        <strong>Select a chat</strong>
+        <% } %>
+      </div>
+
+      <div class="chat-messages">
+       <% messages.forEach(msg => { %>
+        <div class="msg <%= msg.from.equals(currentUser._id) ? 'outgoing' : 'incoming' %>">
+          <%= msg.text %>
+        </div>
+        <% }) %>
+      </div>
+
+      <% if (targetUser) { %>
+    <form action="/messages" method="POST">
+      <input type="hidden" name="toUserId" value="<%= targetUser._id %>">
+      <div class="chat-input">
+      <input type="text" name="text" placeholder="Type a message...">
+      <button type="submit">Send</button>
+       </div>
+    </form>
+  <% } %>
+    </div>
+  </div>
+</body>
+</html>

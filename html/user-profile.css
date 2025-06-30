@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #222;
+  color: #fff;
+  height: 100vh;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #ccc;
+  text-decoration: none;
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Main content */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Profile section */
+.profile-section {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+  border: 3px solid #007bff;
+}
+
+.profile-info h2 {
+  margin: 0 0 5px 0;
+}
+
+.profile-info .username {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.profile-info .bio {
+  font-style: italic;
+  color: #777;
+  margin-bottom: 10px;
+  
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+.profile-info button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #26cbf0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.profile-info button:hover {
+  background-color: #0056b3;
+}
+
+/* Posts */
+.posts {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.posts h3 {
+  margin-top: 0;
+}
+
+.post {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.post:last-child {
+  border-bottom: none;
+}
+
+.post h4 {
+  margin: 0 0 5px 0;
+}
+
+.post p {
+  margin: 0 0 5px 0;
+}
+
+.post .time {
+  color: #999;
+  font-size: 12px;
+}

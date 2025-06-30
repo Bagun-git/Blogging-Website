@@ -15,7 +15,7 @@
     <nav>
       <a href="home" class="active">Home</a>
       <a href="notification">Notifications</a>
-      <a href="messages.html">Messages</a>
+      <a href="messages">Messages</a>
       <a href="profil">Profile</a>
       <a href="login">Logout</a>
     </nav>
@@ -32,14 +32,25 @@
 
   <% blogs.forEach(blog => { %>
     <div class="tweet">
-      <div class="user"><strong>@<%= blog.authorName || "Anonymous" %></strong>
-        <button type="button" 
-  class="followBtn <%= blog.authorId && blog.authorId.followers && blog.authorId.followers.includes(currentUserId) ? 'following' : '' %>" 
-  data-userid="<%= blog.authorId %>">
-  <%= blog.authorId && blog.authorId.followers && blog.authorId.followers.includes(currentUserId) ? 'Following' : 'Follow' %>
-</button>
-
-</div>
+      <div class="user"><strong>
+         <% if (blog.authorId && blog.authorId._id) { %><a href="/user/<%= blog.authorId._id %>">@<%= blog.authorName || "Anonymous" %></a>
+     <% } else { %>
+      @<%= blog.authorName || "Anonymous" %>
+     <% } %></strong>
+      <% if (blog.authorId && blog.authorId._id) { 
+     const isSelf = blog.authorId._id.equals(currentUserId);
+     const isFollowing = blog.authorId.followers && blog.authorId.followers.includes(currentUserId);
+      %>
+      <% if (!isSelf) { %>
+        <button type="button"
+      class="followBtn <%= isFollowing ? 'following' : 'follow' %>"
+      data-userid="<%= blog.authorId._id %>">
+      <%= isFollowing ? 'Following' : 'Follow' %>
+      </button>
+      <% } %>
+      <% } %>
+      
+       </div>
       <h3><%= blog.title %></h3>
       <p><%= blog.content %></p>
       <% if (blog.imagePath) { %>
