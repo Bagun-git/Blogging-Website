@@ -47,7 +47,10 @@
         <% userBlogs.forEach(blog => { %>
           <div class="post">
             <h4><%= blog.title %></h4>
-            <p><%= blog.content %></p>
+            <p> <%= blog.content.length > 200 ? blog.content.substring(0, 200) + '...' : blog.content %>
+ <% if (blog.content.length > 200) { %>
+    <a href="/blog/<%= blog._id %>">Read more</a>
+  <% } %></p>
             <span class="time"><%= blog.createdAt.toDateString() %></span>
           </div>
         <% }) %>

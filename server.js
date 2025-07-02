@@ -59,8 +59,7 @@ const blogSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   authorEmail: String,
   authorName: String,
-  authorId: mongoose.Schema.Types.ObjectId,
-
+  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 const Blog = mongoose.model('Blog', blogSchema);
 

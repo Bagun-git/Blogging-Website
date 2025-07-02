@@ -34,7 +34,7 @@
     <div class="tweet">
       <div class="user"><strong>
          <% if (blog.authorId && blog.authorId._id) { %>
-         <img src="<%= blog.authorId.profilePic || '/images/default-pfp-23.jpg' %>" 
+         <img src="<%= blog.authorId && blog.authorId.profilePic ? blog.authorId.profilePic :'/images/default-pfp-23.jpg' %>" 
          alt="Profile Pic" 
          class="profile-pic" 
          style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
