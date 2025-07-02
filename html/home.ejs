@@ -33,9 +33,19 @@
   <% blogs.forEach(blog => { %>
     <div class="tweet">
       <div class="user"><strong>
-         <% if (blog.authorId && blog.authorId._id) { %><a href="/user/<%= blog.authorId._id %>">
+         <% if (blog.authorId && blog.authorId._id) { %>
+         <img src="<%= blog.authorId.profilePic || '/images/default-pfp-23.jpg' %>" 
+         alt="Profile Pic" 
+         class="profile-pic" 
+         style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
+          <a href="/user/<%= blog.authorId._id %>">
          <span class="username"> @<%= blog.authorName || "Anonymous" %></span></a>
      <% } else { %>
+         <img src="/images/default-pfp-23.jpg" 
+         alt="Profile Pic" 
+         class="profile-pic" 
+         style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 5px;">
+
       @<%= blog.authorName || "Anonymous" %>
      <% } %></strong>
       <% if (blog.authorId && blog.authorId._id) { 
@@ -53,7 +63,12 @@
       
        </div>
       <h3><%= blog.title %></h3>
-      <p><%= blog.content %></p>
+      <p>
+  <%= blog.content.length > 200 ? blog.content.substring(0, 200) + '...' : blog.content %>
+ <% if (blog.content.length > 200) { %>
+    <a href="/blog/<%= blog._id %>">Read more</a>
+  <% } %>
+ </p>
       <% if (blog.imagePath) { %>
         <img src="<%= blog.imagePath %>" alt="Blog Image" width="300" />
       <% } %>

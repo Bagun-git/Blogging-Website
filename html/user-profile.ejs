@@ -23,7 +23,7 @@
 
   <div class="main">
     <div class="profile-section">
-      <img src="<%= user.profilePic || 'default-pic.jpg' %>" alt="Profile Picture" class="profile-pic" />
+      <img src="<%= user.profilePic || '/images/default-pfp-23.jpg' %>" alt="Profile Picture" class="profile-pic" />
       <div class="profile-info">
         <h2><%= user.fullname %></h2>
         <p class="username">@<%= user.fullname.replace(/\s/g, '') %></p>

@@ -279,6 +279,14 @@ app.get('/profil', async (req, res) => {
     ...user._doc,
     profilePicPath: user.profilePicPath || '/images/default-pfp-23.jpg'}, userBlogs });
 });
+
+//blog page route
+app.get('/blog/:id', async (req, res) => {
+  const blog = await Blog.findById(req.params.id).populate('authorId');
+  if (!blog) return res.status(404).send('Blog not found');
+  res.render('blog', { blog });
+});
+
 //search route
 app.get('/search-users', async (req, res) => {
   const q = req.query.q;
@@ -412,10 +420,9 @@ app.post('/update-profile', upload.single('profilePic'), async (req, res) => {
     // ✅ Update fields
     user.fullname = req.body.fullname;
     user.bio = req.body.bio;
-    user.email = req.body.email;
 
     if (req.file) {
-      user.profilePicPath = '/images/' + req.file.filename;
+      user.profilePic= '/images/' + req.file.filename;
     }
 
     await user.save();
@@ -425,7 +432,7 @@ app.post('/update-profile', upload.single('profilePic'), async (req, res) => {
   id: user._id,
   name: user.fullname,
   email: user.email,
-  profilePicPath: user.profilePicPath || '/images/default-pfp-23.jpg'
+  profilePic: user.profilePic || '/images/default-pfp-23.jpg'
 };
 
     res.redirect('/profil');

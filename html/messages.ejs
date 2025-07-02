@@ -33,7 +33,7 @@
 <% } else { %>
   <% chatUsers.forEach(user => { %>
     <a href="/messages?to=<%= user._id %>" class=" <%= targetUser && targetUser._id.equals(user._id) ? 'active' : '' %>">
-      <img src="<%= user.profilePic || 'default-pic.jpg' %>" alt="User" class="chat-user-pic" />
+      <img src="<%= user.profilePic || '/images/default-pfp-23.jpg' %>" alt="User" class="chat-user-pic" />
       <div class="user"><strong><%= user.fullname %></strong></div>
     </a>
   <% }) %>

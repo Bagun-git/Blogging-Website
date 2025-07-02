@@ -25,12 +25,12 @@
     <div class="cover-photo"></div>
     
     <div class="profile-section">
-      <img src="<%= user.profilePicPath %>" alt="Profile Picture" class="profile-pic" />
+      <img src="<%= user.profilePic || '/images/default-pfp-23.jpg'%>" alt="Profile Picture" class="profile-pic" />
       <div class="profile-info">
         <h2><%= user.fullname %></h2>
 <p class="username">@<%= user.fullname.replace(/\s/g, '') %></p>
 <p class="bio"><%= user.bio || 'Web Developer | Blogging Enthusiast | Dreamer 🌟' %></p>
-<p class="joined">Joined <%= user.joinedDate || 'April 2023' %></p>
+<p class="joined">Joined <%= user.joinedDate || 'June 2025' %></p>
       </div>
      <a href="/edit-profile"><button class="edit-btn">Edit Profile</button></a>
     </div>
@@ -49,7 +49,12 @@
   <% userBlogs.forEach(blog => { %>
     <div class="post">
       <h4><%= blog.title %></h4>
-      <p><%= blog.content %></p>
+      <p>
+  <%= blog.content.length > 200 ? blog.content.substring(0, 200) + '...' : blog.content %>
+ <% if (blog.content.length > 200) { %>
+    <a href="/blog/<%= blog._id %>">Read more</a>
+  <% } %>
+ </p>
       <span class="time"><%= blog.createdAt.toDateString() %></span>
     </div>
   <% }) %>

@@ -61,12 +61,19 @@ body {
 
 .username{
   color: #1d9bf0;
+  position:relative;
+   top: -10px; 
 }
 .top-bar {
+  position:sticky;
   font-size: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #333;
-  padding-bottom: 10px;
+  padding-bottom: 2px;
+  padding-top: 6px;
+  z-index: 10;
+  background-color: #000;
+  top:0px;
 }
 
 .tweet-box {
@@ -147,7 +154,8 @@ body {
 }
 
 .who-to-follow h3 {
-  margin-bottom: 10px;
+  margin-top: 8px;
+  margin-bottom: 13px;
 }
 
 .user-suggestion {
@@ -195,11 +203,13 @@ body {
   }
 }
 .followBtn{
+  position:relative;
   padding: 3px 15px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
   margin-left: 7px;
+  top:-13px;
 }
 .followBtn.following {
   background-color: #444;
@@ -227,4 +237,9 @@ body {
 
 .search-results div:hover {
   background-color: #333;
+}
+
+p a{
+  color:aliceblue;
+  font-weight:bold;
 }
