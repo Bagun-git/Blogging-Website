@@ -16,7 +16,7 @@
       <a href="/profil">Profile</a>
       <a href="/login">Logout</a>
     </nav>
-        <a href="create-blog.html">
+        <a href="create-blog">
     <button class="post-btn">Create Blog</button>
     </a>
   </div>
@@ -27,7 +27,10 @@
     <% if (blog.imagePath) { %>
       <img src="<%= blog.imagePath %>" alt="Blog Image" style="max-width: 55%; height: auto; display:block; margin: 15px auto;">
     <% } %>
-    <p><%= blog.content %></p>
+   <%- blog.content
+      .split('\n\n')
+      .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+      .join('') %>
   </div>
 </body>
 </html>

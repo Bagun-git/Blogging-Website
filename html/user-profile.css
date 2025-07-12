@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #050404;
   display: flex;
 }
 
@@ -45,7 +45,7 @@ color:#ffffff;
 .profile-section {
   display: flex;
   align-items: center;
-  background: #fff;
+  background: #070719;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -63,6 +63,7 @@ color:#ffffff;
 
 .profile-info h2 {
   margin: 0 0 5px 0;
+  color:#ffffff;
 }
 
 .profile-info .username {
@@ -79,6 +80,7 @@ color:#ffffff;
 
 .profile-info p {
   margin: 5px 0;
+  color: white;
 }
 
 .profile-info button {
@@ -96,7 +98,7 @@ color:#ffffff;
 
 /* Posts */
 .posts {
-  background: #fff;
+  background: #b9adad;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);

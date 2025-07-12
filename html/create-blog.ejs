@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= editing ? 'Edit Blog' : 'Create Blog' %></title>
+  <link rel="stylesheet" href="/create-blog.css" />
+</head>
+<body>
+  <div class="container">
+    <h2><%= editing ? 'Edit Your Blog' : 'Create a New Blog' %></h2>
+    <form action="<%= editing ? '/update-blog/' + blog._id : '/submit-blog' %>" method="POST" enctype="multipart/form-data">
+      <label for="title">Blog Title</label>
+      <input type="text" id="title" name="title" required value="<%= editing ? blog.title : '' %>">
+
+      <label for="content">Content</label>
+      <textarea id="content" name="content" rows="10" required><%= editing ? blog.content : '' %></textarea>
+
+      <label for="tags">Tags (comma-separated)</label>
+      <input type="text" id="tags" name="tags" placeholder="e.g. Travel,Foodie,Assam" value="<%= editing ? blog.tags.join(',') : '' %>">
+
+      <label for="image">Upload Image</label>
+      <input type="file" id="image" name="image" accept="image/*">
+
+      <button type="submit"><%= editing ? 'Save Changes' : 'Publish Blog' %></button>
+    </form>
+  </div>
+</body>
+</html>

@@ -16,7 +16,7 @@
       <a href="profil" class="active">Profile</a>
       <a href="login">Logout</a>
     </nav>
-    <a href="create-blog.html">
+    <a href="create-blog">
     <button class="post-btn">Create Blog</button>
     </a>
   </div>
@@ -29,7 +29,7 @@
       <div class="profile-info">
         <h2><%= user.fullname %></h2>
 <p class="username">@<%= user.fullname.replace(/\s/g, '') %></p>
-<p class="bio"><%= user.bio || 'Web Developer | Blogging Enthusiast | Dreamer 🌟' %></p>
+<p class="bio"><%= user.bio || 'No bio yet.' %></p>
 <p class="joined">Joined <%= user.joinedDate || 'June 2025' %></p>
       </div>
      <a href="/edit-profile"><button class="edit-btn">Edit Profile</button></a>
@@ -56,6 +56,9 @@
   <% } %>
  </p>
       <span class="time"><%= blog.createdAt.toDateString() %></span>
+     <a href="/edit-blog/<%= blog._id %>">
+      <button class="edit-butn" style="margin-top: 10px;">Edit Post</button>
+    </a>
     </div>
   <% }) %>
 <% } %>

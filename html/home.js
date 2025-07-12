@@ -68,3 +68,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+// Dynamic follow buttons in suggestion sidebar
+document.querySelectorAll("#suggestion-container .followBtn").forEach(button => {
+  button.addEventListener("click", async () => {
+    const userId = button.dataset.userid;
+    try {
+      const res = await fetch("/follow", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetUserId: userId })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        button.textContent = data.following ? "Following" : "Follow";
+        button.classList.toggle("following", data.following);
+        button.classList.toggle("follow", !data.following);
+      }
+    } catch (err) {
+      alert("Failed to update follow status.");
+    }
+  });
+});
+
+// Clickable usernames/images in sidebar → redirect to profile
+document.querySelectorAll(".user-info").forEach(div => {
+  div.addEventListener("click", () => {
+    const userId = div.dataset.id;
+    window.location.href = `/user/${userId}`;
+  });
+});

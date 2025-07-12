@@ -19,7 +19,7 @@
       <a href="profil">Profile</a>
       <a href="login">Logout</a>
     </nav>
-    <a href="create-blog.html">
+    <a href="create-blog">
     <button class="post-btn">Create Blog</button>
     </a>
   </div>
@@ -85,29 +85,25 @@
       <div id="searchResults" class="search-results"></div>
     </div>
 
-    <div class="who-to-follow">
-      <h3>Follow more</h3>
-
+     <div class="who-to-follow">
+  <h3>Follow more</h3>
+  <div id="suggestion-container">
+    <% randomUsers.forEach(u => {
+      const isFollowing = u.followers && u.followers.includes(currentUserId); %>
       <div class="user-suggestion">
-        <img src="virat.jpg" alt="Virat" />
-        <div>
-          <strong>Virat Kohli</strong><br>
-          <span>@imVkohli</span>
+        <img src="<%= u.profilePic || '/images/default-pfp-23.jpg' %>" alt="User" />
+        <div class="user-info" data-id="<%= u._id %>" style="cursor: pointer;">
+          <strong><%= u.fullname %></strong><br>
+          <span>@<%= u.fullname.replace(/\s/g, '') %></span>
         </div>
-        <button>Follow</button>
+         <button class="followBtn <%= isFollowing ? 'following' : 'follow' %>" data-userid="<%= u._id %>">
+          <%= isFollowing ? "Following" : "Follow" %>
+        </button>
       </div>
+    <% }) %>
+  </div>
+</div>
 
-      <div class="user-suggestion">
-        <img src="rihanna.jpg" alt="Rihanna" />
-        <div>
-          <strong>Rihanna</strong><br>
-          <span>@rihanna</span>
-        </div>
-        <button>Follow</button>
-      </div>
-
-      <a href="#" class="show-more">Show more</a>
-    </div>
   </div>
 </body>
 </html>

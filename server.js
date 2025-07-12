@@ -265,7 +265,12 @@ app.get('/home', async (req, res) => {
   }
   const currentUser = await User.findOne({ email: req.session.user.email });
   const blogs = await Blog.find().sort({ createdAt: -1 }).populate('authorId');
-  res.render('home', { blogs, currentUserId: currentUser._id});
+  const excludedIds = [currentUser._id, ...currentUser.following];
+  const randomUsers = await User.aggregate([
+    { $match: { _id: { $nin: excludedIds } } },
+    { $sample: { size: 3 } }  // 3 random users
+  ]);
+  res.render('home', { blogs, currentUserId: currentUser._id, randomUsers});
 });
 //profile route
 app.get('/profil', async (req, res) => {
@@ -460,6 +465,45 @@ app.post('/submit-blog', upload.single('image'), async (req, res) => {
 
   await blog.save();
   res.redirect('/home');
+});
+//create blog
+app.get('/create-blog', (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  res.render('create-blog', { blog: null, editing: false }); // Send empty blog and editing false
+});
+
+// edit blog 
+app.get('/edit-blog/:id', async (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  const blog = await Blog.findById(req.params.id);
+
+  if (!blog || blog.authorEmail !== req.session.user.email) {
+    return res.status(403).send('Not authorized or Blog not found');
+  }
+
+  res.render('create-blog', { blog, editing: true });  // Pass the blog data and editing flag
+});
+
+app.post('/update-blog/:id', upload.single('image'), async (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  const blog = await Blog.findById(req.params.id);
+  if (!blog || blog.authorEmail !== req.session.user.email) {
+    return res.status(403).send('Not authorized');
+  }
+
+  blog.title = req.body.title;
+  blog.content = req.body.content;
+  blog.tags = req.body.tags.split(',').map(tag => tag.trim());
+  
+  if (req.file) {
+    blog.imagePath = '/images/' + req.file.filename;
+  }
+
+  await blog.save();
+  res.redirect('/profil');
 });
 
 // Start server
