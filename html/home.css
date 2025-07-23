@@ -243,3 +243,22 @@ p a{
   color:aliceblue;
   font-weight:bold;
 }
+
+.blog-actions {
+  margin-top: 10px;
+}
+
+.blog-actions button {
+  margin-right: 10px;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.blog-actions button:hover {
+  background-color: #e0d6d6;
+}

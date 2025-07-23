@@ -67,9 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
-// Dynamic follow buttons in suggestion sidebar
-document.querySelectorAll("#suggestion-container .followBtn").forEach(button => {
+ });
+ // Dynamic follow buttons in suggestion sidebar
+ document.querySelectorAll("#suggestion-container .followBtn").forEach(button => {
   button.addEventListener("click", async () => {
     const userId = button.dataset.userid;
     try {
@@ -89,12 +89,34 @@ document.querySelectorAll("#suggestion-container .followBtn").forEach(button => 
       alert("Failed to update follow status.");
     }
   });
-});
+ });
 
-// Clickable usernames/images in sidebar → redirect to profile
-document.querySelectorAll(".user-info").forEach(div => {
+ // Clickable usernames/images in sidebar → redirect to profile
+ document.querySelectorAll(".user-info").forEach(div => {
   div.addEventListener("click", () => {
     const userId = div.dataset.id;
     window.location.href = `/user/${userId}`;
+  });
+});
+
+
+document.querySelectorAll('.blog-actions').forEach(actionDiv => {
+  const blogId = actionDiv.dataset.blogid;
+
+  const likeBtn = actionDiv.querySelector('.like-btn');
+  const dislikeBtn = actionDiv.querySelector('.dislike-btn');
+
+  likeBtn.addEventListener('click', async () => {
+    const res = await fetch(`/blog/${blogId}/like`, { method: 'POST' });
+    const data = await res.json();
+    actionDiv.querySelector('.like-count').textContent = data.likes;
+    actionDiv.querySelector('.dislike-count').textContent = data.dislikes;
+  });
+
+  dislikeBtn.addEventListener('click', async () => {
+    const res = await fetch(`/blog/${blogId}/dislike`, { method: 'POST' });
+    const data = await res.json();
+    actionDiv.querySelector('.like-count').textContent = data.likes;
+    actionDiv.querySelector('.dislike-count').textContent = data.dislikes;
   });
 });

@@ -173,3 +173,43 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+.chat-input .file-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  margin-right: -5px;
+}
+.chat-input {
+  display: flex;
+  align-items: center;
+  background: #111;
+  border-radius: 25px;
+  padding: 8px 12px;
+  gap: 10px;
+}
+
+.chat-input input[type="text"] {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.file-icon {
+  cursor: pointer;
+  font-size: 18px;
+  color: #ccc;
+  margin-right: 8px;
+}
+
+.chat-input button {
+  background: #2196F3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+

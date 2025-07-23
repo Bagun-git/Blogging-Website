@@ -59,15 +59,27 @@ const blogSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   authorEmail: String,
   authorName: String,
-  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 const Blog = mongoose.model('Blog', blogSchema);
+
+//// Multer (for image upload)
+const storage = multer.diskStorage({
+  destination: './html/images',
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
 
 //message schema
 const messageSchema = new mongoose.Schema({
   from: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   to: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   text: String,
+  file: String,
   createdAt: { type: Date, default: Date.now }
 });
 const Message = mongoose.model('Message', messageSchema);
@@ -110,43 +122,34 @@ app.get('/messages', async (req, res) => {
   res.render('messages', { currentUser, targetUser, messages,chatUsers });
 });
 //message POST
-app.post('/messages', async (req, res) => {
+app.post('/messages',upload.single('file'), async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
 
   const currentUser = await User.findOne({ email: req.session.user.email });
   const { toUserId, text } = req.body;
 
-  if (!text.trim() || !mongoose.Types.ObjectId.isValid(toUserId)) {
+ if (!mongoose.Types.ObjectId.isValid(toUserId)) {
     return res.redirect('/messages');
   }
 
   const targetUser = await User.findById(toUserId);
-  if (!targetUser) {
-    return res.redirect('/messages');
-  }
+  if (!targetUser) return res.redirect('/messages');
 
-  await new Message({
+
+ const newMsg = new Message({
     from: currentUser._id,
     to: targetUser._id,
-    text
-  }).save();
+     text: text?.trim() || '',
+    file: req.file ? '/images/' + req.file.filename : null,
+  });
 
+  await newMsg.save();
   res.redirect(`/messages?to=${toUserId}`);
 });
-
-
-// Multer (for image upload)
-const storage = multer.diskStorage({
-  destination: './html/images',
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-const upload = multer({ storage });
-
 app.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
+
 // Signup POST
 app.post('/signup', async (req, res) => {
   const { fullname, email, password, confirmPassword } = req.body;
@@ -282,6 +285,51 @@ app.get('/profil', async (req, res) => {
   res.render('profil', { user: {
     ...user._doc,
     profilePicPath: user.profilePicPath || '/images/default-pfp-23.jpg'}, userBlogs });
+});
+
+//like/dislike route
+app.post('/blog/:id/like', async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ error: 'Login required' });
+
+  const blog = await Blog.findById(req.params.id);
+  const userId = req.session.user.id;
+
+  if (!blog) return res.status(404).json({ error: 'Blog not found' });
+
+  const liked = blog.likes.includes(userId);
+  const disliked = blog.dislikes.includes(userId);
+
+  if (liked) {
+    blog.likes.pull(userId); // unlike
+  } else {
+    blog.likes.push(userId);
+    if (disliked) blog.dislikes.pull(userId); // remove dislike
+  }
+
+  await blog.save();
+  res.json({ likes: blog.likes.length, dislikes: blog.dislikes.length });
+});
+
+app.post('/blog/:id/dislike', async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ error: 'Login required' });
+
+  const blog = await Blog.findById(req.params.id);
+  const userId = req.session.user.id;
+
+  if (!blog) return res.status(404).json({ error: 'Blog not found' });
+
+  const disliked = blog.dislikes.includes(userId);
+  const liked = blog.likes.includes(userId);
+
+  if (disliked) {
+    blog.dislikes.pull(userId); // remove dislike
+  } else {
+    blog.dislikes.push(userId);
+    if (liked) blog.likes.pull(userId); // remove like
+  }
+
+  await blog.save();
+  res.json({ likes: blog.likes.length, dislikes: blog.dislikes.length });
 });
 
 //blog page route
@@ -504,6 +552,16 @@ app.post('/update-blog/:id', upload.single('image'), async (req, res) => {
 
   await blog.save();
   res.redirect('/profil');
+});
+
+// Dashboard Route
+app.get('/dashboard', async (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  const user = await User.findById(req.session.user.id);
+  const blogs = await Blog.find({ authorEmail: user.email }).sort({ createdAt: -1 });
+
+  res.render('dashboard', { user, blogs });
 });
 
 // Start server

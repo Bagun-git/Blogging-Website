@@ -55,21 +55,36 @@
       <div class="chat-messages">
        <% messages.forEach(msg => { %>
         <div class="msg <%= msg.from.equals(currentUser._id) ? 'outgoing' : 'incoming' %>">
-          <%= msg.text %>
-        </div>
-        <% }) %>
+     <% if (msg.text) { %>
+      <p><%= msg.text %></p>
+     <% } %>
+     <% if (msg.file) { %>
+      <% if (msg.file.endsWith('.jpg') || msg.file.endsWith('.jpeg') || msg.file.endsWith('.png') || msg.file.endsWith('.gif')) { %>
+     <img src="<%= msg.file %>" alt="Image" style="max-width: 200px; max-height: 200px; border-radius: 8px; margin-top: 5px;" />
+     <% } else { %>
+       <a href="<%= msg.file %>" download target="_blank">📎 Download File</a>
+     <% } %>
+     <% } %>
+      </div>
+      <% }) %>
+
       </div>
 
       <% if (targetUser) { %>
-    <form action="/messages" method="POST">
+      <form id="chatForm" action="/messages" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="toUserId" value="<%= targetUser._id %>">
       <div class="chat-input">
-      <input type="text" name="text" placeholder="Type a message...">
+      <input type="text" name="text" placeholder="Type a message..." />
+    
+     <label for="fileInput" class="file-icon" title="Attach file">📎</label>
+      <input type="file" id="fileInput" name="file" style="display: none;" />
+
       <button type="submit">Send</button>
-       </div>
-    </form>
-  <% } %>
-    </div>
+     </div>
+      </form>
+      <% } %>
+     </div>
+     
   </div>
 </body>
 </html>

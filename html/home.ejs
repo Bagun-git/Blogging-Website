@@ -74,6 +74,11 @@
       <% } %>
       <hr />
     </div>
+    <div class="blog-actions" data-blogid="<%= blog._id %>">
+  <button class="like-btn">👍 Like <span class="like-count"><%= blog.likes.length %></span></button>
+  <button class="dislike-btn">👎 Dislike <span class="dislike-count"><%= blog.dislikes.length %></span></button>
+</div>
+
   <% }) %>
 </div>
 

@@ -1,0 +1,119 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #0d0d0d; /* Dark background */
+  color: #e6e6e6; /* Light text */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+/* Container Styling */
+.container {
+  background-color: #1a1a1a;
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 0 10px rgba(70, 138, 167, 0.3);
+}
+
+/* Heading Styles */
+.container h1 {
+  font-size: 2rem;
+  color: #00aaff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.container h3 {
+  color: #00ccff;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+}
+
+/* List Styling */
+.container ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.container li {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #262626;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container li strong {
+  color: #ffffff;
+}
+
+/* Edit Link Styling */
+.container li a {
+  text-decoration: none;
+  color: #00ccff;
+  font-size: 0.9rem;
+}
+
+.container li a:hover {
+  text-decoration: underline;
+}
+
+/* Button Styling */
+.container button {
+  background-color: #00aaff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: background-color 0.3s ease;
+}
+
+.container button:hover {
+  background-color: #008ecc;
+}
+
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+h1 {
+  color: #333;
+}
+
+button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  background-color: #222;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn {
+  text-decoration: none; 
+}
